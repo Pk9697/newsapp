@@ -1,7 +1,4 @@
-{
-  "status": "ok",
-  "totalResults": 38,
-  "articles": [
+export const articles = [
     {
       "source": {
         "id": null,
@@ -262,5 +259,4 @@
       "publishedAt": "2021-10-12T02:17:25Z",
       "content": "Pluto, which lost its status as a planet years ago, is confronted with a new problem: Disappearing atmosphere. The icy dwarf celestial body, which is moving farther away from the Sun, lies over 4.8 b… [+1591 chars]"
     }
-  ]
-}
+]
