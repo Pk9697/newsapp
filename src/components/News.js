@@ -6,9 +6,24 @@ export class News extends Component {
     constructor(){
         super();
         this.state={
-            article:this.data,
+            
+            article:[],
             loading:false
         }
+    }
+
+    async componentDidMount(){//will run after render method
+        let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985";
+
+        let data=await fetch(url);
+        let parsedData=await data.json();
+        console.log(parsedData);
+        this.setState({
+            article:parsedData.articles
+        })
+
+
+
     }
 
     render() {
