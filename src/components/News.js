@@ -2,8 +2,22 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import { articlesData } from '../sampleOutput'
 import Spinner from './Spinner';
+import PropTypes from 'prop-types'
+
 export class News extends Component {
     data=articlesData;
+    static defaultProps={
+        country:'in',
+        pageSize:6,
+        category:'general'
+    }
+
+    static propTypes={
+        country:PropTypes.string,
+        pageSize:PropTypes.number,
+        category:PropTypes.string
+    }
+
     constructor(){
         super();
         this.state={
@@ -14,11 +28,10 @@ export class News extends Component {
     }
 
     async componentDidMount(){//will run after render method
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&pageSize=${this.props.pageSize}`;
         this.setState({loading:true});
         let data=await fetch(url);
         let parsedData=await data.json();
-        console.log(data);
         console.log(parsedData);
         this.setState({
             articles:parsedData.articles,
@@ -29,11 +42,10 @@ export class News extends Component {
     }
 
     handlePrevClick=async ()=>{
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
         this.setState({loading:true});
         let data=await fetch(url);
         let parsedData=await data.json();
-        console.log(data);
         console.log(parsedData);
         this.setState({
             articles:parsedData.articles,
@@ -43,11 +55,10 @@ export class News extends Component {
     }
     handleNextClick=async ()=>{
        
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=22fb6b4d23264c6db14b5f7bf2cd3985&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
         this.setState({loading:true});
         let data=await fetch(url);
         let parsedData=await data.json();
-        console.log(data);
         console.log(parsedData);
         this.setState({
             articles:parsedData.articles,
@@ -62,7 +73,7 @@ export class News extends Component {
                 <h2 className="text-center">Top Headlines</h2>
                 {this.state.loading && <Spinner/>}
                 <div className="row">
-                    {!this.state.loading && this.state.articles.map((element,index)=>{
+                    {!this.state.loading && this.state.articles && this.state.articles.map((element,index)=>{
                         // console.log(element);
                         return <div className="col-md-4" key={`news-${index}`}>
                                     <NewsItem title={element.title?element.title.slice(0,45):element.title} description={element.description?element.description.slice(0,88):element.description} imageUrl={element.urlToImage} newsUrl={element.url}/>
